@@ -63,14 +63,32 @@ function createWindow() {
   // mainWindow.setVisibleOnAllWorkspaces(true)          // - 3 -
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
-  // const startUrl = process.env.ELECTRON_START_URL || url.format({
+  // // and load the index.html of the app.
+  // if (ENV === "dev") {
+  //   // for dev
+  //   // mainWindow.loadURL('http://localhost:3000/');
+  //   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+  // }
+  // else if (ENV === "prod" || ENV === "production") {
+  //   // for prod
+  //   // win.loadFile('build/index.html')
+  //   const url = url.format({
+  //     protocol: 'file',
+  //     slashes: true,
+  //     pathname: path.join(__dirname, 'build/index.html');
+  //   });
+  //   mainWindow.loadURL(url);
+  //   const startUrl = process.env.ELECTRON_START_URL || url.format({
   //     pathname: path.join(__dirname, '/../build/index.html'),
   //     protocol: 'file:',
   //     slashes: true
-  // });
-  // mainWindow.loadURL(startUrl);
+  //  });
+  //   mainWindow.loadURL(startUrl);
+  // } 
+  // else{
+  //   throw new Error("wrong env");
+  // }
 
-  // mainWindow.loadFile(path.resolve(__dirname + '/index.html'));
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
 

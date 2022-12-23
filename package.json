@@ -11,22 +11,20 @@
   "homepage": "./",
   "scripts": {
     "react-start": "react-scripts start",
-    "test": "react-scripts test --env=jsdom",
     "build": "react-scripts build",
-    "eject": "react-scripts eject",
     "electron-start": "electron .",
+    
     "dev": "concurrently -k \"set BROWSER=none && yarn react-start\" \"yarn:electron\"",
     "electron": "wait-on tcp:3000 && electron .",
     "package-react": "yarn build && yarn package",
     "make-mac": "yarn build && yarn make --platform darwin",
     "make-linux": "yarn build && yarn make --platform linux",
     "make-react": "yarn build && yarn make",
+
     "forge-start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "publish": "electron-forge publish",
-    "xpostinstall": "electron-rebuild -f -w better-sqlite3",
-    "lint": "echo \"No linting configured\""
+    "publish": "electron-forge publish"
   },
   "license": "MIT",
   "repository": {

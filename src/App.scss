@@ -1,5 +1,5 @@
 html, body, #app {
-	background: #f1f1f1;
+	// background: #f1f1f1;
 	color: black;
 	margin: 0;
 	height: 100vh;
@@ -56,20 +56,37 @@ html, body, #app {
 }
 
 
-/*@media (prefers-color-scheme: dark) {
-	body { 
-		background: #333 !important;
-		color: white !important;
-	}
-}
+// @media (prefers-color-scheme: dark) {
+// 	body { 
+// 		background: #333 !important;
+// 		color: white !important;
+// 	}
+// 	.tickets-list table#tickets thead {
+// 		background-color: #333 !important;
+// 	}
+// 	.menu-list a.is-active, .menu-list a:hover {
+// 		background-color: rgba(70,40,93,.075);
+// 		color: #9b7ab5;
+// 	}
+// 	.table td, .table th {
+// 		color: #9b7ab5;
+// 	}
+// }
 
-@media (prefers-color-scheme: light) {
-	body { 
-		background: #ddd !important; 
-		color: black !important; 
-	}
-}
-*/
+// @media (prefers-color-scheme: light) {
+// 	body { 
+// 		background: #f1f1f1 !important; 
+// 		color: black !important; 
+// 	}
+// 	.tickets-list table#tickets thead {
+// 		background-color: #f1f1f1 !important;
+// 	}
+// 	.menu-list a.is-active, .menu-list a:hover {
+// 		// background-color: rgba(70,40,93,.075);
+// 		// color: #46285d;
+// 	}
+// }
+
 
 #app {
 	/*display: flex;*/

@@ -15,16 +15,16 @@ class Modal extends Component {
 	}
 
 	componentDidUpdate(prevProps) {
-		console.log("componentDidUpdate")
+		// console.log("componentDidUpdate")
 		// this.randomize();
 	}
 
 	componentWillUpdate() {
-		console.log("componentWillUpdate")
+		// console.log("componentWillUpdate")
 	}
 
 	componentDidMount() {
-		console.log("componentDidMount")
+		// console.log("componentDidMount")
 	}
 
 	randomize() {
@@ -38,8 +38,8 @@ class Modal extends Component {
 		if (rand > tickets_count) {
 		  console.log("Out of range. randomize again");
 		}
-		console.log(rand);
-		console.log(this.state.tickets[rand].ticket_no);
+		// console.log(rand);
+		// console.log(this.state.tickets[rand].ticket_no);
 		// ticketsList.moveTo(rand);
 		// console.log(ticketsList.getElement());
 		// setSelectedTicket(ticketsList.getElement());
@@ -56,7 +56,7 @@ class Modal extends Component {
 		let isShowing = this.props.isShowing;
 		let hide = this.props.hide;
 
-		console.log("render")
+		// console.log("render")
 		
 		return isShowing ? ReactDOM.createPortal(
 			<React.Fragment>

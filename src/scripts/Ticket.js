@@ -5,10 +5,9 @@ function Ticket(id, number, status, price) {
   this.ticket_id = id;
   this.ticket_no = number;
   this.ticket_status = status;
-  this.ticket_price = 0;
+  this.ticket_price = price;
   this.barcode_text = "";
   this.barcode = "";
-  this.ticket_type_id = 0;
 
   // let $this = this;
 
@@ -32,5 +31,16 @@ function Ticket(id, number, status, price) {
   //   return this.ticket_no;
   // }
 }
+
+Ticket.prototype.toObject = function() {
+  return {
+    'ticket_id': this.ticket_id,
+    'ticket_no': this.ticket_no,
+    'ticket_status': this.ticket_status,
+    'ticket_price': this.ticket_price,
+    'barcode_text': this.barcode_text,
+    'barcode': this.barcode
+  }
+};
 
 export default Ticket;

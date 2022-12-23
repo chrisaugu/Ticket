@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from 'react-helmet';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { Button } from 'react-bulma-components';
 
@@ -12,10 +12,32 @@ import useModal from '../hooks/useModal';
 // import confetti from "../script/confetti";
 // import p5 from "../script/p5";
 
-const Dashboard = ({ data }) => {
-  const [ tickets, setTickets ] = useState(data);
+import { fetchTickets, getTickets, getLoadableStatus, setLoadableStatus } from "../reduxStore";
+
+const Dashboard = (/*{ data }*/) => {
+  const dispatch = useDispatch();
+  // const [ tickets, setTickets ] = useState(data);
   const { isShowing, toggle } = useModal();
   const [ selectedTicket, setSelectedTicket ] = useState([]);
+
+  const tickets = useSelector(getTickets);
+  
+  useEffect(() => {
+    window.ticket.getAll()
+      .then((results) => {
+        // setTickets(results);
+        dispatch(fetchTickets(results));
+      })
+      .catch(error => {
+          // setIsError(true);
+          console.error(error);
+      });
+
+    // setIsLoading(false);
+
+  }, []);
+
+
 
   function random() {
     console.log("Randomizing...")

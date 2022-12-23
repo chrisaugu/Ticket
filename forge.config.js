@@ -4,7 +4,9 @@ module.exports = {
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
-      config: {},
+      config: {
+        name: "kasap"
+      },
     },
     {
       name: '@electron-forge/maker-zip',
@@ -19,26 +21,26 @@ module.exports = {
       config: {},
     },
   ],
-  plugins: [
-    {
-      name: "@electron-forge/plugin-webpack",
-      config: {
-        devContentSecurityPolicy: `default-src 'self' 'unsafe-inline' data:; script-src 'self' 'unsafe-eval' 'unsafe-inline' data:`,
-        mainConfig: "./webpack.main.config.js",
-        renderer: {
-          config: "./webpack.renderer.config.js",
-          entryPoints: [
-            {
-              name: "main_window",
-              html: "./src/index.html",
-              js: "./src/renderer.js",
-              preload: {
-                js: "./src/preload.js"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ]
+  // plugins: [
+  //   {
+  //     name: "@electron-forge/plugin-webpack",
+  //     config: {
+  //       devContentSecurityPolicy: `default-src 'self' 'unsafe-inline' data:; script-src 'self' 'unsafe-eval' 'unsafe-inline' data:`,
+  //       mainConfig: "./webpack.main.config.js",
+  //       renderer: {
+  //         config: "./webpack.renderer.config.js",
+  //         entryPoints: [
+  //           {
+  //             name: "main_window",
+  //             html: "./src/index.html",
+  //             js: "./src/renderer.js",
+  //             preload: {
+  //               js: "./src/preload.js"
+  //             }
+  //           }
+  //         ]
+  //       }
+  //     }
+  //   }
+  // ]
 };

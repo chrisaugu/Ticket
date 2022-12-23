@@ -1,12 +1,15 @@
-const { app, BrowserWindow, Menu, dialog, ipcMain, nativeTheme, autoUpdater, crashReporter, globalShortcut } = require('electron');
+const { app, BrowserWindow, Menu, dialog, ipcMain, nativeTheme, autoUpdater, crashReporter, globalShortcut, screen } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
-// const sqlite3 = require('sqlite3');
-const sqlite = require('sqlite-electron');
-const Knex = require("knex");
+// const sqlite = require('sqlite-electron');
 const url = require('url');
-// const config = require(path.join(__dirname, 'package.json'));
+const isDev = require('electron-is-dev');
+// const log = require('electron-log');
+
+const ENV = "dev";
+
+// log.info('Initializing app');
 
 // require('update-electron-app')();
 
@@ -25,16 +28,13 @@ if (process.platform === 'win32') {
   app.commandLine.appendSwitch('force-device-scale-factor', '1')
 }
 
-const MAIN_WINDOWS_WIDTH = 800;
-const MAIN_WINDOWS_HEIGHT = 650;
-
-// let {width, height} = require('electron').screen.getPrimaryDisplay().size;
+// let { width, height } = screen.getPrimaryDisplay().size;
 
 function createWindow() {
 
   mainWindow = new BrowserWindow({
-    width: MAIN_WINDOWS_WIDTH,
-    height: MAIN_WINDOWS_HEIGHT,
+    width: 800,
+    height: 650,
     show: false,
 
     backgroundColor: 'lightgray',
@@ -46,8 +46,7 @@ function createWindow() {
 
       nodeIntegration: false,
       contextIsolation: true,
-      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY
-      // preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'preload.js')
     },
     icon: "./images/icon.png"
   });
@@ -56,36 +55,29 @@ function createWindow() {
 
   // mainWindow.setAlwaysOnTop(true, "screen-saver")     // - 2 -
   // mainWindow.setVisibleOnAllWorkspaces(true)          // - 3 -
-  mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
-  // // and load the index.html of the app.
-  // if (ENV === "dev") {
-  //   // for dev
-  //   // mainWindow.loadURL('http://localhost:3000/');
-  //   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-  // }
-  // else if (ENV === "prod" || ENV === "production") {
-  //   // for prod
-  //   // win.loadFile('build/index.html')
-  //   const url = url.format({
-  //     protocol: 'file',
-  //     slashes: true,
-  //     pathname: path.join(__dirname, 'build/index.html');
-  //   });
-  //   mainWindow.loadURL(url);
-  //   const startUrl = process.env.ELECTRON_START_URL || url.format({
-  //     pathname: path.join(__dirname, '/../build/index.html'),
-  //     protocol: 'file:',
-  //     slashes: true
-  //  });
-  //   mainWindow.loadURL(startUrl);
-  // } 
-  // else{
-  //   throw new Error("wrong env");
-  // }
+  // and load the index.html of the app.
+  if (ENV === "dev") {
+    // for dev
+    mainWindow.loadURL("http://localhost:3000/");
+  }
+  else if (ENV === "prod" || ENV === "production") {
+    // for prod
+    const startUrl = url.format({
+      pathname: path.join(__dirname, '/../build/index.html'),
+      protocol: 'file:',
+      slashes: true
+   });
+    mainWindow.loadURL(startUrl);
+  } 
+  else {
+    throw new Error("wrong env");
+  }
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+  if (isDev) {
+    mainWindow.webContents.openDevTools();
+  }
 
   // Enable keyboard shortcuts for Developer Tools on various platforms.
   let platform = os.platform();
@@ -99,7 +91,6 @@ function createWindow() {
     })
   }
 
-  
   // Don't show until we are ready and loaded
   mainWindow.once('ready-to-show', () => {
     mainWindow.setMenu(null);
@@ -150,45 +141,40 @@ app.on('window-all-closed', function() {
 app.allowRendererProcessReuse = true;
 
 
-// ipcMain.handle('databasePath', async (event, dbPath) => {
-//   return await sqlite.setdbPath(dbPath)
+// sqlite.setdbPath('./tickets.db');
+
+// ipcMain.handle('executeQuery', async (event, query, fetch, value) => {
+//   return await sqlite.executeQuery(query, fetch, value);
 // });
-sqlite.setdbPath('./tickets.db');
 
-ipcMain.handle('executeQuery', async (event, query, fetch, value) => {
-  return await sqlite.executeQuery(query, fetch, value);
-});
+// ipcMain.handle('executeScript', async (event, scriptpath) => {
+//   return await sqlite.executeScript(scriptpath);
+// });
 
-ipcMain.handle('executeScript', async (event, scriptpath) => {
-  return await sqlite.executeScript(scriptpath);
-});
+// ipcMain.handle('executeMany', async (event, query, values) => {
+//   return await sqlite.executeQuery(query, values); 
+// });
 
-ipcMain.handle('executeMany', async (event, query, values) => {
-  return await sqlite.executeQuery(query, values); 
-});
-
-let knex = new Knex({
+let knex = require("knex")({
   client: "sqlite3",
-  // client: 'better-sqlite3',
   useNullAsDefault: false,
   connection: {
-    filename: './tickets.db'
+    filename: path.join(__dirname, './tickets.db')
   }
 });
 
-// knex.schema.hasTable('Ticket').then(function(exists) {
-//   if (!exists) {
-//     return knex.schema.createTable('Ticket', function(t) {
-//       t.increments('ticket_id').primary();
-//       t.string('ticket_no', 10);
-//       t.string('ticket_status', 10);
-//       t.string('ticket_pattern', 10);
-//       t.integer('ticket_price');
-//       t.string('barcode', 20);
-//       t.string('barcode_text', 20);
-//     });
-//   }
-// });
+knex.schema.hasTable('Tickets').then(function(exists) {
+  if (!exists) {
+    return knex.schema.createTable('Ticket', function(t) {
+      t.increments('ticket_id').primary();
+      t.string('ticket_no', 10);
+      t.string('ticket_status', 10);
+      t.integer('ticket_price');
+      t.string('barcode', 20);
+      t.string('barcode_text', 20);
+    });
+  }
+});
 
 ipcMain.handle('dark-mode:theme', () => {
   return nativeTheme.themeSource;
@@ -208,27 +194,27 @@ ipcMain.handle('dark-mode:system', () => {
   nativeTheme.themeSource = 'system'
 });
 
-// Listens for an 'update' event from a renderer
-ipcMain.on('update', (event, arg) => {
-  // sends arg to the renderer
-  mainWindow.webContents.send('target', arg)
-  console.log('arg:'+arg)
-});
+// // Listens for an 'update' event from a renderer
+// ipcMain.on('update', (event, arg) => {
+//   // sends arg to the renderer
+//   mainWindow.webContents.send('target', arg)
+//   console.log('arg:'+arg)
+// });
 
-ipcMain.on('asynchronous-message', (event, arg) => {
-  console.log("hello: "+arg) // prints "ping"
-  event.sender.send('asynchronous-reply', 'pong')
-});
+// ipcMain.on('asynchronous-message', (event, arg) => {
+//   console.log("hello: "+arg) // prints "ping"
+//   event.sender.send('asynchronous-reply', 'pong')
+// });
 
-ipcMain.on('synchronous-message', (event, arg) => {
-  console.log("says " + arg) // prints "ping"
-  event.returnValue = 'pong'
-});
+// ipcMain.on('synchronous-message', (event, arg) => {
+//   console.log("says " + arg) // prints "ping"
+//   event.returnValue = 'pong'
+// });
 
-ipcMain.handle('invoke-handle-message', (event, arg) => {
-  console.log(arg)
-  return 'cpong'
-});
+// ipcMain.handle('invoke-handle-message', (event, arg) => {
+//   console.log(arg)
+//   return 'cpong'
+// });
 
 // ipcMain.on('asynchronous-message', (event, arg) => {
 //   const sql = arg;
@@ -238,23 +224,20 @@ ipcMain.handle('invoke-handle-message', (event, arg) => {
 // });
 
 ipcMain.handle('tickets-db:getOne', (event, arg) => {
-  console.log(arg);
-
-  let result = knex.from("Tickets")
-                    .where('id', arg);
-
-  result.then(function(rows){
-    return rows;
-  });
-
+  if (typeof arg == 'number') {
+    return knex.from('Tickets').where('ticket_id', arg);
+  }
+  else {
+    return knex.from('Tickets').where('ticket_no', arg);
+  }
 });
 
-ipcMain.on("mainWindowLoaded", function() {
-  let result = knex.select("FirstName").from("User");
-  result.then(function(rows){
-    mainWindow.webContents.send("resultSent", rows);
-  });
-});
+// ipcMain.on("mainWindowLoaded", function() {
+//   let result = knex.select("FirstName").from("User");
+//   result.then(function(rows){
+//     mainWindow.webContents.send("resultSent", rows);
+//   });
+// });
 
 // Returns [1] in "mysql", "sqlite", "oracle"; 
 // [] in "postgresql" 
@@ -297,59 +280,38 @@ ipcMain.on("mainWindowLoaded", function() {
 //   });
 
 ipcMain.handle('tickets-db:getAll', (event, query, values) => {
-  console.log(query);
-  
-  let result = knex.from("Tickets");
-  result.then(function(rows){
-    return rows;
-    // event.sender.send("resultSentx", rows);
-    // event.reply('asynchronous-reply', (err && err.message) || rows);
-  });
+  let result = knex.from('Tickets');
+  // result.then(function(rows){
+  //   return rows;
+  //   // event.sender.send("resultSentx", rows);
+  //   // event.reply('asynchronous-reply', (err && err.message) || rows);
+  // });
 
   return result;
 });
 
 ipcMain.handle('tickets-db:insertOne', (event, arg) => {
-  console.log(arg);
-
   let result = knex('Tickets').insert(arg);
   return result;
 });
 
 ipcMain.handle('tickets-db:insertMany', (event, data) => {
-  console.log(data);
-
-  let result = knex
-    .insert(data)
-    .into('Tickets');
-
-  return result;
+  return knex.insert(data).into('Tickets');
 });
 
 ipcMain.handle('tickets-db:deleteOne', async (event, query, values) => {
-  console.log(event);
-
-  knex('Tickets')
-    .where('id', query)
-    .del();
+  return knex.delete().from('Tickets').where('ticket_id', query);
 });
 
 ipcMain.handle('tickets-db:deleteAll', async (event, query, values) => {
-  console.log(event);
-
-  knex('Tickets')
-    .delete(query)
-    .where('id', query)
-    .del();
+  return knex.delete().from('Tickets');
 });
 
 ipcMain.handle('tickets-db:updateOne', async (event, query, values) => {
-  // return await sqlite.executeMany(query, values)
-  console.log(event);
+  return knex('Tickets').update('ticket_status', values).where('ticket_id', query);
 });
 
 ipcMain.handle('tickets-db:updateMany', async (event, query, values) => {
-  // return await sqlite.executeMany(query, values)
   console.log(event);
 });
 
@@ -451,66 +413,6 @@ function update() {
     // now:
     autoUpdater.quitAndInstall()
   })
-
-
-  // const https = require('https');
-  // const fs = require('fs');
-
-  // if (process.platform === 'win32') {
-  //     const file = fs.createWriteStream(`./sqlite-${process.platform}-${process.arch}.exe`);
-  //     https.get(`https://github.com/tmotagam/sqlite-electron/releases/download/v2.2.5/sqlite-${process.platform}-${process.arch}.exe`, (response) => {
-  //         if (response.statusCode === 200) {
-  //             response.pipe(file);
-  //             file.on("finish", () => {
-  //                 file.close();
-  //                 console.log("Download Completed")
-  //             });
-  //         } else if (response.statusCode === 302) {
-  //             https.get(response.headers.location, (response) => {
-  //                 if (response.statusCode === 200) {
-  //                     response.pipe(file);
-  //                     file.on("finish", () => {
-  //                         file.close();
-  //                         console.log("Download Completed")
-  //                     });
-  //                 } else {
-  //                     throw { code: response.statusCode, message: response.statusMessage, url: `https://github.com/tmotagam/sqlite-electron/releases/download/v2.2.5/sqlite-${process.platform}-${process.arch}.exe` }
-  //                 }
-  //             })
-  //         } else {
-  //             throw { code: response.statusCode, message: response.statusMessage, url: `https://github.com/tmotagam/sqlite-electron/releases/download/v2.2.5/sqlite-${process.platform}-${process.arch}.exe` }
-  //         }
-  //     }).on("error", (e) => {
-  //         throw e
-  //     })
-  // } else {
-  //     const file = fs.createWriteStream(`./sqlite-${process.platform}-${process.arch}`, { mode: 0o744 });
-  //     https.get(`https://github.com/tmotagam/sqlite-electron/releases/download/v2.2.5/sqlite-${process.platform}-${process.arch}`, (response) => {
-  //         if (response.statusCode === 200) {
-  //             response.pipe(file);
-  //             file.on("finish", () => {
-  //                 file.close();
-  //                 console.log("Download Completed")
-  //             });
-  //         } else if (response.statusCode === 302) {
-  //             https.get(response.headers.location, (response) => {
-  //                 if (response.statusCode === 200) {
-  //                     response.pipe(file);
-  //                     file.on("finish", () => {
-  //                         file.close();
-  //                         console.log("Download Completed")
-  //                     });
-  //                 } else {
-  //                     throw { code: response.statusCode, message: response.statusMessage, url: `https://github.com/tmotagam/sqlite-electron/releases/download/v2.2.5/sqlite-${process.platform}-${process.arch}` }
-  //                 }
-  //             })
-  //         } else {
-  //             throw { code: response.statusCode, message: response.statusMessage, url: `https://github.com/tmotagam/sqlite-electron/releases/download/v2.2.5/sqlite-${process.platform}-${process.arch}` }
-  //         }
-  //     }).on("error", (e) => {
-  //         throw e
-  //     })
-  // }
 
 };
 

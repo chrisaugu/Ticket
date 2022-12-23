@@ -47,21 +47,50 @@ const TicketList = ({ tickets }) => {
     }
   }
 
-  const handleDeleteOneTicket = async (id) => {
+  const handleDeleteOneTicket = (id) => {
     alert(`Are you sure you want to delete ticket number ${id}`);
-    await window.ticket.deleteOne(id);
+    window.ticket.deleteOne(id).then((result) => {
+      if (result) {
+        alert('Successful');
+      }
+      else {
+        alert('Unsuccessful');
+      }
+    });
+
   }
-  const handleDeleteManyTickets = async (ids) => {
+  const handleDeleteManyTickets = (ids) => {
     alert(`Are you sure you want to delete ticket number ${ids}`);
-    await window.ticket.deleteMany(ids);
+    window.ticket.deleteMany(ids).then((result) => {
+      if (result) {
+        alert('Successful');
+      }
+      else {
+        alert('Successful');
+      }
+    });
   }
-  const handleCheckedOutTicket = async (id) => {
-    alert(`Ticket number ${id} is now CHECKED OUT`);
-    // await window.ticket.changeStatus(id, "CHECKED OUT");
+  const handleCheckedOutTicket = (id) => {
+    let _status = "CHECKED OUT";
+    window.ticket.changeStatus(id, _status).then((result) => {
+      if (result) {
+        alert(`Ticket number ${id} is now ${_status}`);
+      }
+      else {
+        alert(`Ticket number ${id} is not ${_status}`);
+      }
+    });
   }
-  const handleCheckedInTicket = async (id) => {
-    alert(`Ticket number ${id} is now CHECKED IN`);
-    // await window.ticket.changeStatus(id, "CHECKED IN");
+  const handleCheckedInTicket = (id) => {
+    let _status = "CHECKED IN";
+    window.ticket.changeStatus(id, _status).then((result) => {
+      if (result) {
+        alert(`Ticket number ${id} is now ${_status}`);
+      }
+      else {
+        alert(`Ticket number ${id} is not ${_status}`);
+      }
+    });
   }
 
   function Checkbox({name, value, className, checked, indeterminate, transitionDuration, onChange}) {
@@ -206,8 +235,8 @@ const TicketList = ({ tickets }) => {
       setSortBy(field);
       setSortedData(sortData(data, { sortBy: field, reversed, search }));
 
-      console.log(data)
-      console.log(sortedData)
+      // console.log(data)
+      // console.log(sortedData)
     };
 
     const handleSearchChange = (event) => {
@@ -270,7 +299,7 @@ const TicketList = ({ tickets }) => {
             rows
           ) : (
             <tr>
-              <td colSpan={Object.keys(data[0]).length}>
+              <td colSpan={/*Object.keys(ticketModel).length*/5}>
                 <h1 align="center" className="has-text-weight-medium is-size-4">
                   No tickets available
                 </h1>
@@ -321,3 +350,18 @@ export default TicketList;
 // }
 
 // export default TodoList
+// import { connect } from 'react-redux';
+// import { updateUsers } from './actions';
+// class UserList extends React.Component {
+// componentDidMount(state, { updateUsers }) {
+// updateUsers();
+// },
+// render({ users }) {
+// return (
+// ...
+// );
+// }
+// }
+// const mapStateToProps = ({ users }) => users;
+// const mapDispatchToProps = { updateUsers };
+// export default connect(mapStateToProps, mapDispatchToProps)(UserList);

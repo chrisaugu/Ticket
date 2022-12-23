@@ -1,27 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from 'react-helmet';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { Button, Heading } from 'react-bulma-components';
 
 import FileUpload from "../components/FileUpload";
 import Icon from "../components/Icon";
+import useModal from "../hooks/useModal";
 import Toast from "../components/Toast";
 
 import TicketList from "../components/TicketList";
 
-import { Button } from 'react-bulma-components';
-
 import bgImg from "../images/background.jpg";
 
-const Dashboard = ({ data }) => {
-  const [ tickets, setTickets ] = useState(data);
-  
-  const handleRequestTickets = async () => {
-    await window.ticket.getAll();
-    // console.log("ehh")
-  }
+import { fetchTickets, getTickets } from "../reduxStore";
 
-  const [text, setText] = useState('');
+const Dashboard = (/*{ data }*/) => {
+  // const [ tickets, setTickets ] = useState(data);
   const dispatch = useDispatch();
+  const tickets = useSelector(getTickets);
+
+  useEffect(() => {
+    window.ticket.getAll()
+      .then((results) => {
+        // setTickets(results);
+        dispatch(fetchTickets(results));
+      })
+      .catch(error => {
+        // setIsError(true);
+        console.error(error);
+      });
+
+    // setIsLoading(false);
+  }, []);
+  // export function updateUsers() {
+  //   return (dispatch, getState) => {
+  //   return fetch('/api/users')
+  //   .then((res) => res.json())
+  //   .then((users) => dispatch({ type: 'SET_USERS', payload: users }));
+  //   };
+  // };
+  
+  const [text, setText] = useState('');
 
   const handleChange = e => setText(e.target.value);
 
@@ -36,37 +56,59 @@ const Dashboard = ({ data }) => {
     }
     console.log(trimmedText)
   }
+
+  function ToastBtn({children, text}) {
+    const {isShowing, toggle} = useModal();
+
+    return (
+      <>
+        <Button onClick={toggle}>{children}</Button>
+        <Toast
+          text={text}
+          variant={"danger"}
+          isShowing={isShowing}
+          hide={toggle}
+        />
+      </>
+    )
+  }
   
   return (
     <>
       <Helmet>
         <title>Home</title>
       </Helmet>
+      
       {/*<h6 className="is-uppercase is-dimmed has-text-weight-medium is-size-6 is-size-7-mobile">Page</h6>*/}
       {/*<h1 className="title is-family-secondary is-size-2-mobile">Home</h1>*/}
+      
       <div className="container">
         <div className="columns">
           <div className="column is-6">
 
             {/*<Button color="primary" outlined>My Bulma button</Button>*/}
+            {/*<ToastBtn text={"hello"}>Show toast</ToastBtn>*/}
 
             {/*<div className="message">Default Message.</div>*/}
             {/*<div className="message is-info">An info message 💁‍♂️</div>*/}
             {/*<div className="message is-success is-size-4">Big success message.</div>*/}
 
-            <div className="topbtn">
+            {/*<div className="topbtn">*/}
 
-              <button className="button" onClick={handleRequestTickets}>get all</button>
+              {/*<button className="button" onClick={insertTicket}>Insert</button>*/}
 
-              <button className="button" onClick={(conten)=>{}}> Async</button>
-
-            </div>
+            {/*</div>*/}
 
             <TicketList tickets={tickets} />
 
           </div>
 
           <div className="column is-6">
+
+            {/*<Heading size={2} weight={'semibold'} heading={true}>Hello</Heading>*/}
+            {/*<Heading size={1} weight={'bold'} subtitle={true}>World</Heading>*/}
+            {/*<h6 className="is-uppercase is-dimmed has-text-weight-medium is-size-6 is-size-7-mobile">Page</h6>*/}
+            {/*<h1 className="title is-family-secondary is-size-2-mobile">Home</h1>*/}
 
             <div className="ticket-search box">
               {/*<figure className="image is-128x128">

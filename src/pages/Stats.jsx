@@ -1,14 +1,17 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Helmet } from 'react-helmet';
 // import faker from 'faker';
+import { useSelector, useDispatch } from 'react-redux';
 import { Chart } from "react-chartjs-2";
 import { Chart as ChartJS, LineController, LineElement, PointElement, LinearScale, CategoryScale, PieController, BarController, BarElement, Title, ArcElement, Tooltip, Legend } from "chart.js";
 
 import { Container, Columns, Box, Heading as Typography } from 'react-bulma-components';
 
-import { getTickets } from "../data";
+// import { getTickets } from "../data";
 import Ticket from "../scripts/Ticket";
 import List from "../scripts/List";
+
+import { fetchTickets, getTickets, getLoadableStatus, setLoadableStatus } from "../reduxStore";
 
 ChartJS.register(LineController, LineElement, PointElement, LinearScale, CategoryScale, PieController, BarController, BarElement, Title, ArcElement, Tooltip, Legend);
 
@@ -45,9 +48,25 @@ function triggerTooltip(chart) {
   chart.update();
 }
 
+const Stats = (/*{ data }*/) => {
+  const dispatch = useDispatch();
+  const tickets = useSelector(getTickets);
 
-const Stats = ({ data }) => {
-  let tickets = data;
+  useEffect(() => {
+    window.ticket.getAll()
+      .then((results) => {
+        // setTickets(results);
+        dispatch(fetchTickets(results));
+      })
+      .catch(error => {
+          // setIsError(true);
+          console.error(error);
+      });
+
+    // setIsLoading(false);
+
+  }, []);
+
   let ticket_price = tickets[0].ticket_price;
   let total_tickets = tickets.length;
 
@@ -304,11 +323,11 @@ const Stats = ({ data }) => {
             </Box>
           </Columns.Column>*/}
 
-          <Columns.Column size="6">
+          {/*<Columns.Column size="6">
             <Box className="is-raised">
               <Chart ref={chartRef} type='line' options={options} data={chartData} />
             </Box>
-          </Columns.Column>
+          </Columns.Column>*/}
           
         </Columns>
 

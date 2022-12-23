@@ -18,7 +18,6 @@ class FileUpload extends React.Component {
   }
 
   componentDidMount() {
-
   }
   
   componentDidUpdate(prevProps) {

@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from 'react-helmet';
 import _ from 'underscore';
+import { useSelector, useDispatch } from 'react-redux';
+import { Button, Progress, Loader } from 'react-bulma-components';
 
 import { parse_csv_to_json } from "../scripts/utils";
 
@@ -13,8 +15,27 @@ import Ticket from "../scripts/Ticket";
 import List from "../scripts/List";
 import Toast from "../components/Toast";
 
-const Dashboard = ({ data }) => {
-  const [ tickets, setTickets ] = useState(data);
+import { fetchTickets, getTickets } from "../reduxStore";
+
+const Dashboard = (/*{ data }*/) => {
+  // const [ tickets, setTickets ] = useState(data);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    window.ticket.getAll()
+      .then((results) => {
+        // setTickets(results);
+        dispatch(fetchTickets(results));
+      })
+      .catch(error => {
+        // setIsError(true);
+        console.error(error);
+      });
+
+    // setIsLoading(false);
+  }, []);
+
+  const tickets = useSelector(getTickets);
   
   // let list = new List();
   // for (let i = 0; i < tickets.length; i++) {
@@ -30,21 +51,27 @@ const Dashboard = ({ data }) => {
 
   // }
 
-  const handleNewTickets = (t) => {
-    if (tickets.length > 0) {
-      if (alert("There are existing tickets. Do you want to override them?")) {
-        setTickets(t);
-      }
-    } else {
-      setTickets(t);
-    }
-
-    // save all tickets to database
-    // window.tickets.insertMany(t);
-  }
-
   function GenerateTicketBtn() {
     const {isShowing, toggle} = useModal();
+
+    const handleNewTickets = async (t) => {
+      // if (tickets.length > 0) {
+      //   if (alert("There are existing tickets. Do you want to override them?")) {
+      //     setTickets(t);
+      //   }
+      // } else {
+      //   setTickets(t);
+      // }
+      // setTickets(t);
+
+      if (tickets.length > 0) {
+        await window.ticket.deleteAll();
+      }
+      // save all tickets to database
+      window.ticket.insertMany(t).then((res) => {
+        toggle();
+      });
+    }
   
     return (
       <>
@@ -66,18 +93,22 @@ const Dashboard = ({ data }) => {
       let files = e.target.files;
       if (files && files.length > 0) {
         let file = files.item(0);
-        file.text().then(function(response){
+        file.text().then(async function(response){
           console.log(response);
           let data = parse_csv_to_json(response);
 
           let list = [];
           for (let i = 0; i < data.length; i++) {
             let ticket = data[i];
-            let ticketId = ticket['TicketId'] != null ? ticket['TicketId'] : i;
+            let ticketId = ticket['TicketId'] != null ? ticket['TicketId'] : i+1;
             list.push(new Ticket(ticketId, ticket['TicketNo'], ticket['TicketStatus'], ticket['TicketPrice']));
           }
           
-          setTickets(list);
+          // setTickets(list);
+          await window.ticket.deleteAll();
+          window.ticket.insertMany(list).then((result) => {
+            // show progressbar
+          });
         })
         .catch(function(error) {
           console.error(error);
@@ -187,6 +218,9 @@ const Dashboard = ({ data }) => {
             
             <div className="column">
 
+              {/*<Progress value='2' max='4' size='3'/>*/}
+              {/*<Loader/>*/}
+              
               <header className="container is-sticky">
                 <nav className="level">
 

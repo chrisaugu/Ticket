@@ -1,23 +1,10 @@
-import { Fragment, useState } from 'react';
+import { Component, Fragment, useState } from 'react';
 import ReactDOM from 'react-dom';
 
-const useModal = () => {
-  const [isShowing, setIsShowing] = useState(false);
-
-  function toggle() {
-    setIsShowing(!isShowing);
-  }
-
-  return {
-    isShowing,
-    toggle,
-  }
-};
-
-const Toast = ({ isShowing, hide, text }) => isShowing ? ReactDOM.createPortal(
+const Toast = ({ text, variant, isShowing, hide }) => isShowing ? ReactDOM.createPortal(
   <Fragment>
     <div className={`modal has-noti ${isShowing ? 'is-active':''}`}>
-      <div className="message">
+      <div className={`message ${variant ? 'is-'+variant:''}`}>
         {text}
       </div>  
     </div>
@@ -25,3 +12,39 @@ const Toast = ({ isShowing, hide, text }) => isShowing ? ReactDOM.createPortal(
 ) : null;
 
 export default Toast;
+
+
+class Toastx extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      number: 0,
+    };
+  }
+  
+  componentDidMount() {
+    this.setInterval(() => {
+      this.setState({
+        number: this.state.number + 1
+      });
+    }, 1000);
+  }
+  
+  componentWillUnmount() {
+    clearInterval(this.counterInterval);
+  }
+
+  componentWillMount() {}
+  componentWillReceiveProps() {}
+  shouldComponentUpdate() {}
+  componentWillUpdate() {}
+  componentDidUpdate() {}
+
+  render() {
+    return (
+      <p>{this.state.number} seconds have passed</p>
+    );
+  }
+
+}

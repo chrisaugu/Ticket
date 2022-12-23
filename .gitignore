@@ -97,3 +97,4 @@ my-app/
 app/
 electron-webpack-quick-start/
 tickets/
+build/

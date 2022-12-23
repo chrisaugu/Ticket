@@ -1,29 +1,37 @@
 {
-  "name": "kasap",
+  "name": "@chrisaugu/kasap",
   "productName": "Kasap",
   "description": "Kasap is a ticket processing software built on ElectronJs",
   "keywords": [],
   "version": "1.0.0",
   "author": "Christian Augustyn",
   "private": true,
-  "main": "./.webpack/main",
+  "xmain": "./.webpack/main",
+  "main": "./src/electron.js",
   "homepage": "./",
   "scripts": {
-    "dev": "react-scripts start",
+    "react-start": "react-scripts start",
     "test": "react-scripts test --env=jsdom",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "electron": "electron .",
-    "electron-dev": "set ELECTRON_START_URL=http://localhost:3000 electron .",
-    "start": "electron-forge start",
+    "electron-start": "electron .",
+    "dev": "concurrently -k \"set BROWSER=none && yarn react-start\" \"yarn:electron\"",
+    "electron": "wait-on tcp:3000 && electron .",
+    "package-react": "yarn build && yarn package",
+    "make-mac": "yarn build && yarn make --platform darwin",
+    "make-linux": "yarn build && yarn make --platform linux",
+    "make-react": "yarn build && yarn make",
+    "forge-start": "electron-forge start",
     "package": "electron-forge package",
-    "postinstall": "electron-rebuild -f -w better-sqlite3",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
+    "xpostinstall": "electron-rebuild -f -w better-sqlite3",
     "lint": "echo \"No linting configured\""
   },
   "license": "MIT",
-  "repository": "https://github.com/chrisaugu/kasap",
+  "repository": {
+    "url": "git@github.com:chrisaugu/kasap.git"
+  },
   "publishConfig": {
     "@chrisaugu:registry": "https://npm.pkg.github.com"
   },
@@ -68,7 +76,7 @@
     "fs": "^0.0.1-security",
     "html-webpack-plugin": "^5.5.0",
     "isomorphic-ws": "^5.0.0",
-    "knex": "^2.2.0",
+    "knex": "^2.3.0",
     "node-hid": "^2.1.2",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
@@ -110,9 +118,11 @@
     "@electron-forge/template-webpack": "^6.0.3",
     "@svgr/webpack": "^6.5.1",
     "@vercel/webpack-asset-relocator-loader": "^1.7.3",
+    "concurrently": "^7.6.0",
     "electron": "22.0.0",
     "electron-reload": "^2.0.0-alpha.1",
     "foreman": "^3.0.1",
-    "node-loader": "^2.0.0"
+    "node-loader": "^2.0.0",
+    "wait-on": "^6.0.1"
   }
 }

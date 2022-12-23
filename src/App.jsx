@@ -13,22 +13,36 @@ import Icon from "./components/Icon";
 
 import './App.scss';
 
-import { getTickets } from "./data";
+// import { getTickets } from "./data";
 import Ticket from "./scripts/Ticket";
 import List from "./scripts/List";
 
-import { /*getTickets,*/ getLoadableStatus, setLoadableStatus } from "./reduxStore";
+// import { fetchTickets, getTickets, getLoadableStatus, setLoadableStatus } from "./reduxStore";
 
 function App() {
-  // const getTickets = await window.ticket.getTickets;
-  let tickets = getTickets();
+  // const [tickets, setTickets] = useState([]);
+  // const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   window.ticket.getAll()
+  //     .then((results) => {
+  //       // setTickets(results);
+  //       dispatch(fetchTickets(results));
+  //     })
+  //     .catch(error => {
+  //         // setIsError(true);
+  //         console.error(error);
+  //     });
+
+  //   // setIsLoading(false);
+
+  // }, []);
+
+  // const tickets = useSelector(getTickets);
+  // console.log(tickets)
 
   let systemRef = React.createRef();
   let darkLightRef = React.createRef();
-  
-  const updateScratchpad = newValue => {
-    window.ticket.saveContent(newValue);
-  };
   
   const toggleDarkMode = async () => {
     let isDarkMode = await window.ticket.toggle();
@@ -47,13 +61,11 @@ function App() {
   //     console.log('State after dispatch: ', store.getState())
   // );
   // unsubscribe();
-
-  const dispatch = useDispatch();
   
-  dispatch(setLoadableStatus('hasValue'));
+  // dispatch(setLoadableStatus('hasValue'));
 
-  const loadable = useSelector(getLoadableStatus);
-  console.log(loadable)
+  // const loadable = useSelector(getLoadableStatus);
+  // console.log(loadable)
 
 
   return (
@@ -67,16 +79,16 @@ function App() {
             Ticket
           </h1>
 
-          <hr/>
+          {/*<hr/>*/}
 
-          <div className="field has-addons">
+          {/*<div className="field has-addons">
             <p className="control">
               <button className="button is-small" ref={darkLightRef} onClick={toggleDarkMode}>Dark</button>
             </p>
             <p className="control">
               <button className="button is-small" ref={systemRef} onClick={systemDarkMode}>System</button>
             </p>
-          </div>
+          </div>*/}
 
           <hr/>
 
@@ -120,10 +132,10 @@ function App() {
       <main className="page">
         
         <Routes>
-          <Route exact index path="/" element={<Home data={tickets} />} />
-          <Route exact path="/dashboard" element={<Dashboard data={tickets} />} />
-          <Route exact path="/random" element={<RandomTicket data={tickets} />} />
-          <Route exact path="/stats" element={<Stats data={tickets} />} />
+          <Route exact index path="/" element={<Home/>} />
+          <Route exact path="/dashboard" element={<Dashboard/>} />
+          <Route exact path="/random" element={<RandomTicket/>} />
+          <Route exact path="/stats" element={<Stats/>} />
           <Route exact path="/main_window" element={<Navigate to="/" replace={true} />} />
           <Route exact path="*" element={<NoMatch/>} />
         </Routes>

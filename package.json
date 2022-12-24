@@ -13,14 +13,12 @@
     "react-start": "react-scripts start",
     "build": "react-scripts build",
     "electron-start": "electron .",
-    
     "dev": "concurrently -k \"set BROWSER=none && yarn react-start\" \"yarn:electron\"",
     "electron": "wait-on tcp:3000 && electron .",
     "package-react": "yarn build && yarn package",
     "make-mac": "yarn build && yarn make --platform darwin",
     "make-linux": "yarn build && yarn make --platform linux",
     "make-react": "yarn build && yarn make",
-
     "forge-start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
@@ -80,7 +78,6 @@
     "react": "^18.2.0",
     "react-bulma-components": "4.1.0",
     "react-chartjs-2": "^4.3.1",
-    "react-csv-reader": "^3.5.2",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
     "react-hook-form": "^7.38.0",

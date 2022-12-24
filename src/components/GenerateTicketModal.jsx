@@ -22,9 +22,9 @@ class Modal extends React.Component {
 
 	componentDidMount() {
 		// console.log("componentDidMount")
-		let $ticket_no = React.createRef();
-		let $ticket_pattern = React.createRef();
-		let $ticket_price = React.createRef();
+		// let $ticket_no = React.createRef();
+		// let $ticket_pattern = React.createRef();
+		// let $ticket_price = React.createRef();
 
 		// $ticket_no.current.focus();
 	}

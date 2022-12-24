@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import { parse_csv_to_json } from "../scripts/utils";
 
@@ -14,7 +13,6 @@ class FileUpload extends React.Component {
     }
 
     this.handleChange = this.handleChange.bind(this);
-    this.parse_csv_to_json = this.parse_csv_to_json.bind(this);
   }
 
   componentDidMount() {
@@ -33,7 +31,7 @@ class FileUpload extends React.Component {
 
       file.text().then(function(response){
         console.log(response);
-        let data = $this.parse_csv_to_json(response);
+        let data =parse_csv_to_json(response);
 
         let list = [];
         for (let i = 0; i < data.length; i++) {

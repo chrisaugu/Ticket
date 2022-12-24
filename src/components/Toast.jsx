@@ -1,5 +1,5 @@
-import { Component, Fragment, useState } from 'react';
-import ReactDOM from 'react-dom';
+import { Component, Fragment } from 'react';
+import ReactDOM from 'react-dom/client';
 
 const Toast = ({ text, variant, isShowing, hide }) => isShowing ? ReactDOM.createPortal(
   <Fragment>
@@ -14,37 +14,37 @@ const Toast = ({ text, variant, isShowing, hide }) => isShowing ? ReactDOM.creat
 export default Toast;
 
 
-class Toastx extends Component {
-  constructor(props) {
-    super(props);
+// export class Toastx extends Component {
+//   constructor(props) {
+//     super(props);
 
-    this.state = {
-      number: 0,
-    };
-  }
+//     this.state = {
+//       number: 0,
+//     };
+//   }
   
-  componentDidMount() {
-    this.setInterval(() => {
-      this.setState({
-        number: this.state.number + 1
-      });
-    }, 1000);
-  }
+//   componentDidMount() {
+//     this.setInterval(() => {
+//       this.setState({
+//         number: this.state.number + 1
+//       });
+//     }, 1000);
+//   }
   
-  componentWillUnmount() {
-    clearInterval(this.counterInterval);
-  }
+//   componentWillUnmount() {
+//     clearInterval(this.counterInterval);
+//   }
 
-  componentWillMount() {}
-  componentWillReceiveProps() {}
-  shouldComponentUpdate() {}
-  componentWillUpdate() {}
-  componentDidUpdate() {}
+//   componentWillMount() {}
+//   componentWillReceiveProps() {}
+//   shouldComponentUpdate() {}
+//   componentWillUpdate() {}
+//   componentDidUpdate() {}
 
-  render() {
-    return (
-      <p>{this.state.number} seconds have passed</p>
-    );
-  }
+//   render() {
+//     return (
+//       <p>{this.state.number} seconds have passed</p>
+//     );
+//   }
 
-}
+// }

@@ -1,7 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-// import logger from 'redux-logger';
-import { configureStore } from "@reduxjs/toolkit";
+import logger from 'redux-logger';
+// import { configureStore } from "@reduxjs/toolkit";
 
 
 /**
@@ -72,9 +72,11 @@ const rootReducer = combineReducers({
   loadable: loaderReducer
 });
 
+// const store = configureStore({ reducer: rootReducer });
+
 const store = createStore(
   rootReducer,
-  applyMiddleware(thunkMiddleware/*, logger*/)
+  applyMiddleware(thunkMiddleware, logger)
 );
 export default store;
 

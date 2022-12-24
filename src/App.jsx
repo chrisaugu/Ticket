@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useReducer } from "react"
-import { useSelector, useDispatch } from 'react-redux';
+import React from "react";
+// import React, { useState, useEffect, useReducer } from "react";
 
 import { Routes, Route, NavLink, Navigate } from "react-router-dom";
 
@@ -13,9 +13,8 @@ import Icon from "./components/Icon";
 
 import './App.scss';
 
-// import { getTickets } from "./data";
-import Ticket from "./scripts/Ticket";
-import List from "./scripts/List";
+// import Ticket from "./scripts/Ticket";
+// import List from "./scripts/List";
 
 // import { fetchTickets, getTickets, getLoadableStatus, setLoadableStatus } from "./reduxStore";
 

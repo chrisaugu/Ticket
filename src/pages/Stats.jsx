@@ -1,52 +1,50 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { /*useRef, useState,*/ useEffect } from "react";
 import { Helmet } from 'react-helmet';
-// import faker from 'faker';
 import { useSelector, useDispatch } from 'react-redux';
-import { Chart } from "react-chartjs-2";
-import { Chart as ChartJS, LineController, LineElement, PointElement, LinearScale, CategoryScale, PieController, BarController, BarElement, Title, ArcElement, Tooltip, Legend } from "chart.js";
+// import { Chart } from "react-chartjs-2";
+// import { Chart as ChartJS, LineController, LineElement, PointElement, LinearScale, CategoryScale, PieController, BarController, BarElement, Title, ArcElement, Tooltip, Legend } from "chart.js";
 
-import { Container, Columns, Box, Heading as Typography } from 'react-bulma-components';
+import { Container, Columns/*, Box, Heading as Typography*/ } from 'react-bulma-components';
 
-// import { getTickets } from "../data";
 import Ticket from "../scripts/Ticket";
 import List from "../scripts/List";
 
-import { fetchTickets, getTickets, getLoadableStatus, setLoadableStatus } from "../reduxStore";
+import { fetchTickets, getTickets } from "../reduxStore";
 
-ChartJS.register(LineController, LineElement, PointElement, LinearScale, CategoryScale, PieController, BarController, BarElement, Title, ArcElement, Tooltip, Legend);
+// ChartJS.register(LineController, LineElement, PointElement, LinearScale, CategoryScale, PieController, BarController, BarElement, Title, ArcElement, Tooltip, Legend);
 
-function triggerTooltip(chart) {
-  const tooltip = chart.tooltip;
+// function triggerTooltip(chart) {
+//   const tooltip = chart.tooltip;
 
-  if (!tooltip) {
-    return;
-  }
+//   if (!tooltip) {
+//     return;
+//   }
 
-  if (tooltip.getActiveElements().length > 0) {
-    tooltip.setActiveElements([], { x: 0, y: 0 });
-  } else {
-    const { chartArea } = chart;
+//   if (tooltip.getActiveElements().length > 0) {
+//     tooltip.setActiveElements([], { x: 0, y: 0 });
+//   } else {
+//     const { chartArea } = chart;
 
-    tooltip.setActiveElements(
-      [
-        {
-          datasetIndex: 0,
-          index: 2,
-        },
-        {
-          datasetIndex: 1,
-          index: 2,
-        },
-      ],
-      {
-        x: (chartArea.left + chartArea.right) / 2,
-        y: (chartArea.top + chartArea.bottom) / 2,
-      }
-    );
-  }
+//     tooltip.setActiveElements(
+//       [
+//         {
+//           datasetIndex: 0,
+//           index: 2,
+//         },
+//         {
+//           datasetIndex: 1,
+//           index: 2,
+//         },
+//       ],
+//       {
+//         x: (chartArea.left + chartArea.right) / 2,
+//         y: (chartArea.top + chartArea.bottom) / 2,
+//       }
+//     );
+//   }
 
-  chart.update();
-}
+//   chart.update();
+// }
 
 const Stats = (/*{ data }*/) => {
   const dispatch = useDispatch();
@@ -92,7 +90,7 @@ const Stats = (/*{ data }*/) => {
       tickets_checkedin++;
     }
   }
-  let tickets_checkedout = total_tickets - tickets_checkedin;
+  // let tickets_checkedout = total_tickets - tickets_checkedin;
   // let tickets_sold = new List();
   // for (ticketsList.end(); ticketsList.currPos() > 0; ticketsList.prev()) {
   //   if (ticketsList.getElement() instanceof Ticket) {
@@ -106,159 +104,159 @@ const Stats = (/*{ data }*/) => {
 
   const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
 
-  const [chartData, setChartData] = useState({
-    labels: [],
-    datasets: [],
-  });
-  const chartRef = useRef(null);
+  // const [chartData, setChartData] = useState({
+  //   labels: [],
+  //   datasets: [],
+  // });
+  // const chartRef = useRef(null);
 
-  useEffect(() => {
-    const chart = chartRef.current;
+  // useEffect(() => {
+  //   const chart = chartRef.current;
 
-    if (chart) {
-      setChartData({
-        labels,
-        datasets: [
-          {
-            type: 'line',
-            label: 'Old',
-            data: [12, 3, 5, 7, 5, 8, 1],
-            borderWidth: 1,
-            borderColor: 'rgb(255, 99, 132)',
-            // borderColor: [
-            //   'rgba(255, 99, 132, 1)',
-            //   'rgba(54, 162, 235, 1)',
-            //   'rgba(255, 206, 86, 1)',
-            //   'rgba(75, 192, 192, 1)',
-            //   'rgba(153, 102, 255, 1)',
-            //   'rgba(255, 159, 64, 1)',
-            // ]
-            backgroundColor: 'rgba(255, 99, 132, 0.5)',
-            // backgroundColor: createBackgroundGradient(chart.ctx),
-            // backgroundColor: [
-            //   'rgba(255, 99, 132, 0.2)',
-            //   'rgba(54, 162, 235, 0.2)',
-            //   'rgba(255, 206, 86, 0.2)',
-            //   'rgba(75, 192, 192, 0.2)',
-            //   'rgba(153, 102, 255, 0.2)',
-            //   'rgba(255, 159, 64, 0.2)',
-            // ],
-          },
-          // {
-          //   type: 'line',
-          //   label: 'Dataset 1',
-          //   fill: false,
-          //   data: labels.map(() => randomNumber({ min: -1000, max: 1000 })),
-          //   borderColor: 'rgb(53, 162, 235)',
-          //   backgroundColor: 'rgba(53, 162, 235, 0.5)',
-          //   borderWidth: 2,
-          // },
-          // {
-          //   type: 'bar',
-          //   label: 'Dataset 2',
-          //   data: labels.map(() => randomNumber({ min: -1000, max: 1000 })),
-          //   backgroundColor: 'rgb(75, 192, 192)',
-          //   borderColor: 'white',
-          //   borderWidth: 2,
-          // },
-          // {
-          //   type: 'bar',
-          //   label: 'Dataset 3',
-          //   data: labels.map(() => randomNumber({ min: -1000, max: 1000 })),
-          //   backgroundColor: 'rgb(53, 162, 235)',
-          // },
-          // {
-          //   label: 'New',
-          //   data: labels.map(() => randomNumber({ min: -1000, max: 1000 })),
-          //   backgroundColor: [
-          //     'rgba(255, 99, 132, 0.2)',
-          //     'rgba(54, 162, 235, 0.2)',
-          //     'rgba(255, 206, 86, 0.2)',
-          //     'rgba(75, 192, 192, 0.2)',
-          //     'rgba(153, 102, 255, 0.2)',
-          //     'rgba(255, 159, 64, 0.2)',
-          //   ],
-          //   borderWidth: 1,
-          //   borderColor: [
-          //     'rgba(255, 99, 132, 1)',
-          //     'rgba(54, 162, 235, 1)',
-          //     'rgba(255, 206, 86, 1)',
-          //     'rgba(75, 192, 192, 1)',
-          //     'rgba(153, 102, 255, 1)',
-          //     'rgba(255, 159, 64, 1)',
-          //   ]
-          // },
-        ]
-      });
-    }
-  }, []);
+  //   if (chart) {
+  //     setChartData({
+  //       labels,
+  //       datasets: [
+  //         {
+  //           type: 'line',
+  //           label: 'Old',
+  //           data: [12, 3, 5, 7, 5, 8, 1],
+  //           borderWidth: 1,
+  //           borderColor: 'rgb(255, 99, 132)',
+  //           // borderColor: [
+  //           //   'rgba(255, 99, 132, 1)',
+  //           //   'rgba(54, 162, 235, 1)',
+  //           //   'rgba(255, 206, 86, 1)',
+  //           //   'rgba(75, 192, 192, 1)',
+  //           //   'rgba(153, 102, 255, 1)',
+  //           //   'rgba(255, 159, 64, 1)',
+  //           // ]
+  //           backgroundColor: 'rgba(255, 99, 132, 0.5)',
+  //           // backgroundColor: createBackgroundGradient(chart.ctx),
+  //           // backgroundColor: [
+  //           //   'rgba(255, 99, 132, 0.2)',
+  //           //   'rgba(54, 162, 235, 0.2)',
+  //           //   'rgba(255, 206, 86, 0.2)',
+  //           //   'rgba(75, 192, 192, 0.2)',
+  //           //   'rgba(153, 102, 255, 0.2)',
+  //           //   'rgba(255, 159, 64, 0.2)',
+  //           // ],
+  //         },
+  //         // {
+  //         //   type: 'line',
+  //         //   label: 'Dataset 1',
+  //         //   fill: false,
+  //         //   data: labels.map(() => randomNumber({ min: -1000, max: 1000 })),
+  //         //   borderColor: 'rgb(53, 162, 235)',
+  //         //   backgroundColor: 'rgba(53, 162, 235, 0.5)',
+  //         //   borderWidth: 2,
+  //         // },
+  //         // {
+  //         //   type: 'bar',
+  //         //   label: 'Dataset 2',
+  //         //   data: labels.map(() => randomNumber({ min: -1000, max: 1000 })),
+  //         //   backgroundColor: 'rgb(75, 192, 192)',
+  //         //   borderColor: 'white',
+  //         //   borderWidth: 2,
+  //         // },
+  //         // {
+  //         //   type: 'bar',
+  //         //   label: 'Dataset 3',
+  //         //   data: labels.map(() => randomNumber({ min: -1000, max: 1000 })),
+  //         //   backgroundColor: 'rgb(53, 162, 235)',
+  //         // },
+  //         // {
+  //         //   label: 'New',
+  //         //   data: labels.map(() => randomNumber({ min: -1000, max: 1000 })),
+  //         //   backgroundColor: [
+  //         //     'rgba(255, 99, 132, 0.2)',
+  //         //     'rgba(54, 162, 235, 0.2)',
+  //         //     'rgba(255, 206, 86, 0.2)',
+  //         //     'rgba(75, 192, 192, 0.2)',
+  //         //     'rgba(153, 102, 255, 0.2)',
+  //         //     'rgba(255, 159, 64, 0.2)',
+  //         //   ],
+  //         //   borderWidth: 1,
+  //         //   borderColor: [
+  //         //     'rgba(255, 99, 132, 1)',
+  //         //     'rgba(54, 162, 235, 1)',
+  //         //     'rgba(255, 206, 86, 1)',
+  //         //     'rgba(75, 192, 192, 1)',
+  //         //     'rgba(153, 102, 255, 1)',
+  //         //     'rgba(255, 159, 64, 1)',
+  //         //   ]
+  //         // },
+  //       ]
+  //     });
+  //   }
+  // }, []);
 
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-        display: false,
-        labels: {
-          font: {
-            size: 12,
-          },
-        },
-      },
-      title: {
-        display: true,
-        text: 'Sales',
-      },
-    },
-  };
+  // const options = {
+  //   responsive: true,
+  //   plugins: {
+  //     legend: {
+  //       position: 'top',
+  //       display: false,
+  //       labels: {
+  //         font: {
+  //           size: 12,
+  //         },
+  //       },
+  //     },
+  //     title: {
+  //       display: true,
+  //       text: 'Sales',
+  //     },
+  //   },
+  // };
 
-  const [chartView, setChartView] = useState([]);
-  const summaryRef = useRef(null);
+  // const [chartView, setChartView] = useState([]);
+  // const summaryRef = useRef(null);
 
-  const pieData = {
-    labels: ["Tickets Sold", "Tickets Checked In", "Tickets Checked Out", "tickets_profit"],
-    datasets: [
-      {
-        label: "# of Votes",
-        data: [
-          tickets_sold, 
-          tickets_checkedin, 
-          tickets_checkedout, 
-          tickets_profit
-        ],
-        backgroundColor: ["#F2CC59", "#BA68C8", "#407BFF", "#E6E5E6"],
-        borderColor: ["#F2CC59", "#BA68C8", "#407BFF", "#E6E5E6"],
-        borderWidth: 1,
-      },
-    ],
-  };
+  // const pieData = {
+  //   labels: ["Tickets Sold", "Tickets Checked In", "Tickets Checked Out", "tickets_profit"],
+  //   datasets: [
+  //     {
+  //       label: "# of Votes",
+  //       data: [
+  //         tickets_sold, 
+  //         tickets_checkedin, 
+  //         tickets_checkedout, 
+  //         tickets_profit
+  //       ],
+  //       backgroundColor: ["#F2CC59", "#BA68C8", "#407BFF", "#E6E5E6"],
+  //       borderColor: ["#F2CC59", "#BA68C8", "#407BFF", "#E6E5E6"],
+  //       borderWidth: 1,
+  //     },
+  //   ],
+  // };
 
-  const pieOptions = {
-    plugins: {
-      legend: {
-        display: false,
-        labels: {
-          font: {
-            size: 12,
-          },
-        },
-      },
-    },
-  };
+  // const pieOptions = {
+  //   plugins: {
+  //     legend: {
+  //       display: false,
+  //       labels: {
+  //         font: {
+  //           size: 12,
+  //         },
+  //       },
+  //     },
+  //   },
+  // };
 
-  useEffect(() => {
-    setChartView(summaryRef?.current?.legend?.legendItems);
-  }, []);
+  // useEffect(() => {
+  //   setChartView(summaryRef?.current?.legend?.legendItems);
+  // }, []);
 
-  const randomNumber = (opts) => {
-    let arr = [];
+  // function randomNumber(opts) {
+  //   let arr = [];
 
-    for (let i = 0; i < opts.max - opts.min; i++) {
-      arr.push(Math.floor(opts.min + Math.random() * (opts.max-opts.min)));
-    }
+  //   for (let i = 0; i < opts.max - opts.min; i++) {
+  //     arr.push(Math.floor(opts.min + Math.random() * (opts.max-opts.min)));
+  //   }
 
-    return arr;
-  }
+  //   return arr;
+  // }
 
   return (
     <>

@@ -5,14 +5,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Button } from 'react-bulma-components';
 
 import Icon from "../components/Icon";
-import TicketList from "../components/TicketList";
 import RandomlySelectTicketModal from "../components/RandomlySelectTicketModal";
 import useModal from '../hooks/useModal';
 
 // import confetti from "../script/confetti";
 // import p5 from "../script/p5";
 
-import { fetchTickets, getTickets, getLoadableStatus, setLoadableStatus } from "../reduxStore";
+import { fetchTickets, getTickets} from "../reduxStore";
 
 const Dashboard = (/*{ data }*/) => {
   const dispatch = useDispatch();

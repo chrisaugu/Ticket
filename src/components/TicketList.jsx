@@ -1,36 +1,36 @@
 import React, { useRef, useState } from 'react';
-import _ from 'underscore';
+// import _ from 'underscore';
 import { Table } from 'react-bulma-components';
 
-import useModal from "../hooks/useModal";
-import RandomlySelectTicketModal from "./RandomlySelectTicketModal";
-import GenerateTicketModal from "./GenerateTicketModal";
+// import useModal from "../hooks/useModal";
+// import RandomlySelectTicketModal from "./RandomlySelectTicketModal";
+// import GenerateTicketModal from "./GenerateTicketModal";
 import Ticket from "../scripts/Ticket";
 import List from "../scripts/List";
 import Icon from "./Icon";
 
 const TicketList = ({ tickets }) => {
-  const [selectedTicket, setSelectedTicket] = useState();
-  const [isLoading, setIsLoading] = useState(false);
+  // const [selectedTicket, setSelectedTicket] = useState();
+  // const [isLoading, setIsLoading] = useState(false);
 
   // console.log(tickets)
   let list = new List();
   for (let i = 0; i < tickets.length; i++) {
     list.append(tickets[i]);
   }
-  let [ticketsList, setTicketsList] = useState(list);
+  // let [ticketsList, setTicketsList] = useState(list);
   
-  let [ticketsx, setTicketsx] = useState({
-    isAllSelected: false,
-    ticketsList: tickets
-  });
+  // let [ticketsx, setTicketsx] = useState({
+  //   isAllSelected: false,
+  //   ticketsList: tickets
+  // });
 
   // setTicketsList(list);
   // console.log(ticketsList)
 
-  let tickets_count = 500;
-  let rand = Math.random();
-  let checkbox = useRef();
+  // let tickets_count = 500;
+  // let rand = Math.random();
+  // let checkbox = useRef();
 
 
   // const sortData = (data) => {
@@ -166,11 +166,11 @@ const TicketList = ({ tickets }) => {
     return data;
     // const query = search.toLowerCase().trim();
     // return _.filter([1, 2, 3, 4, 5, 6], function(num) { 
-    //   return num % 2 == 0; 
+    //   return num % 2 === 0; 
     // });
     // return data.filter((item) =>
     //   Object.keys(data[0]).some((key) => {
-    //     if (typeof item[key] == 'number') {
+    //     if (typeof item[key] === 'number') {
     //       Number(item[key]).toString().toLowerCase().includes(query)
     //     }
     //     else {
@@ -193,11 +193,10 @@ const TicketList = ({ tickets }) => {
       [...data].sort((a, b) => {
         if (payload.reversed) {
           // return b[sortBy].localeCompare(a[sortBy]);
-          if (sortBy == 'ticket_id') {
+          if (sortBy === 'ticket_id') {
             return a[sortBy] - b[sortBy];
-            return 0;
           }
-          if (sortBy == 'ticket_status') {
+          if (sortBy === 'ticket_status') {
             if (a[sortBy] < b[sortBy]) return -1;
             if (b[sortBy] < a[sortBy]) return 1;
             return 0;
@@ -205,11 +204,10 @@ const TicketList = ({ tickets }) => {
         }
 
         // return a[sortBy].localeCompare(b[sortBy]);
-        if (sortBy == 'ticket_id') {
+        if (sortBy === 'ticket_id') {
           return b[sortBy] - a[sortBy];
-          return 0;
         }
-        if (sortBy == 'ticket_status') {
+        if (sortBy === 'ticket_status') {
           if (a[sortBy] < b[sortBy]) return 1;
           if (b[sortBy] < a[sortBy]) return -1;
           // ["Bob", "Mary", "Alice"].sort((a, b) => a > b ? 1 : -1);
@@ -239,11 +237,11 @@ const TicketList = ({ tickets }) => {
       // console.log(sortedData)
     };
 
-    const handleSearchChange = (event) => {
-      const { value } = event.currentTarget;
-      setSearch(value);
-      setSortedData(sortData(data, { sortBy, reversed: reverseSortDirection, search: value }));
-    };
+    // const handleSearchChange = (event) => {
+    //   const { value } = event.currentTarget;
+    //   setSearch(value);
+    //   setSortedData(sortData(data, { sortBy, reversed: reverseSortDirection, search: value }));
+    // };
 
     const toggleRow = (id) => {
       setSelection((current) => 

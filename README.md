@@ -1,4 +1,4 @@
-# Ticket by DWU-MCS
+# Ticket
 
 ### Features
 [x] multiple page

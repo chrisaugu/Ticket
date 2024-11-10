@@ -1,4 +1,5 @@
 const { app, BrowserWindow, Menu, dialog, ipcMain, nativeTheme, autoUpdater, crashReporter, globalShortcut } = require('electron');
+// let {width, height} = require('electron').screen.getPrimaryDisplay().size;
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
@@ -9,8 +10,6 @@ const url = require('url');
 // const config = require(path.join(__dirname, 'package.json'));
 
 // require('update-electron-app')();
-
-let mainWindow;
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 // eslint-disable-next-line global-require
@@ -28,16 +27,21 @@ if (process.platform === 'win32') {
 const MAIN_WINDOWS_WIDTH = 800;
 const MAIN_WINDOWS_HEIGHT = 650;
 
-// let {width, height} = require('electron').screen.getPrimaryDisplay().size;
-
 function createWindow() {
+  const splash = new BrowserWindow({
+    width: 600, 
+    height: 400,
+    transparent: true, 
+    frame: false, 
+    alwaysOnTop: true
+  });
+  splash.loadURL(SPLASH_WINDOW_WEBPACK_ENTRY)
+  splash.center();
 
-  mainWindow = new BrowserWindow({
+  let mainWindow = new BrowserWindow({
     width: MAIN_WINDOWS_WIDTH,
     height: MAIN_WINDOWS_HEIGHT,
-    show: false,
-
-    backgroundColor: 'lightgray',
+    // backgroundColor: 'lightgray',
     // title: config.productName,
     show: false,
     webPreferences: {
@@ -54,74 +58,50 @@ function createWindow() {
 
   mainWindow.maximize();
 
-  // mainWindow.setAlwaysOnTop(true, "screen-saver")     // - 2 -
-  // mainWindow.setVisibleOnAllWorkspaces(true)          // - 3 -
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
-  // // and load the index.html of the app.
-  // if (ENV === "dev") {
-  //   // for dev
-  //   // mainWindow.loadURL('http://localhost:3000/');
-  //   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-  // }
-  // else if (ENV === "prod" || ENV === "production") {
-  //   // for prod
-  //   // win.loadFile('build/index.html')
-  //   const url = url.format({
-  //     protocol: 'file',
-  //     slashes: true,
-  //     pathname: path.join(__dirname, 'build/index.html');
-  //   });
-  //   mainWindow.loadURL(url);
-  //   const startUrl = process.env.ELECTRON_START_URL || url.format({
-  //     pathname: path.join(__dirname, '/../build/index.html'),
-  //     protocol: 'file:',
-  //     slashes: true
-  //  });
-  //   mainWindow.loadURL(startUrl);
-  // } 
-  // else{
-  //   throw new Error("wrong env");
-  // }
+  setTimeout(function () {
+    splash.close();
+    mainWindow.show();
+  }, 5000);
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
 
   // Enable keyboard shortcuts for Developer Tools on various platforms.
-  let platform = os.platform();
-  if (platform === 'darwin') {
-    globalShortcut.register('Command+Option+I', () => {
-      mainWindow.webContents.openDevTools()
-    })
-  } else if (platform === 'linux' || platform === 'win32') {
-    globalShortcut.register('Control+Shift+I', () => {
-      mainWindow.webContents.openDevTools()
-    })
-  }
+  // let platform = os.platform();
+  // if (platform === 'darwin') {
+  //   globalShortcut.register('Command+Option+I', () => {
+  //     mainWindow.webContents.openDevTools()
+  //   })
+  // } else if (platform === 'linux' || platform === 'win32') {
+  //   globalShortcut.register('Control+Shift+I', () => {
+  //     mainWindow.webContents.openDevTools()
+  //   })
+  // }
 
-  
   // Don't show until we are ready and loaded
-  mainWindow.once('ready-to-show', () => {
-    mainWindow.setMenu(null);
-    mainWindow.show();
-  });
+  // mainWindow.once('ready-to-show', () => {
+  //   mainWindow.setMenu(null);
+  //   // mainWindow.show();
+  // });
 
-  mainWindow.webContents.on('crashed', () => {
-    console.log('Window crashed!')
-  })
+  // mainWindow.webContents.on('crashed', () => {
+  //   console.log('Window crashed!')
+  // })
 
-  mainWindow.on('beforeunload', (e) => {
-    // Prevent Command-R from unloading the window contents.
-    e.returnValue = false
-  })
+  // mainWindow.on('beforeunload', (e) => {
+  //   // Prevent Command-R from unloading the window contents.
+  //   e.returnValue = false
+  // })
 
   // Emitted when the window is closed.
-  mainWindow.on('closed', function() {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    mainWindow = null;
-  });
+  // mainWindow.on('closed', function() {
+  //   // Dereference the window object, usually you would store windows
+  //   // in an array if your app supports multi windows, this is the time
+  //   // when you should delete the corresponding element.
+  //   mainWindow = null;
+  // });
 }
 
 // This method will be called when Electron has finished
@@ -129,14 +109,14 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 // app.on('ready', createWindow);
 app.whenReady().then(() => {
-  createWindow()
-});
+  createWindow();
 
-app.on('activate', function() {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (BrowserWindow.getAllWindows().length === 0) createWindow()
-})
+  app.on('activate', function() {
+    // On macOS it's common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
+    if (BrowserWindow.getAllWindows().length === 0) createWindow()
+  });
+});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -147,7 +127,7 @@ app.on('window-all-closed', function() {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-app.allowRendererProcessReuse = true;
+// app.allowRendererProcessReuse = true;
 
 
 // ipcMain.handle('databasePath', async (event, dbPath) => {

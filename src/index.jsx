@@ -4,7 +4,7 @@ import { /*BrowserRouter*/HashRouter as Router } from "react-router-dom";
 import { Provider } from 'react-redux';
 
 import App from './App';
-import store from './reduxStore';
+import store from "./stores/store";
 
 import "biings-ds/build/bds.css";
 import './index.css';

@@ -15,7 +15,7 @@ import Ticket from "../scripts/Ticket";
 import List from "../scripts/List";
 import Toast from "../components/Toast";
 
-import { fetchTickets, getTickets } from "../reduxStore";
+import { fetchTickets, getTickets } from "../stores/store";
 
 const Dashboard = (/*{ data }*/) => {
   // const [ tickets, setTickets ] = useState(data);

@@ -11,7 +11,7 @@ import useModal from '../hooks/useModal';
 // import confetti from "../script/confetti";
 // import p5 from "../script/p5";
 
-import { fetchTickets, getTickets} from "../reduxStore";
+import { fetchTickets, getTickets} from "../stores/store";
 
 const Dashboard = (/*{ data }*/) => {
   const dispatch = useDispatch();

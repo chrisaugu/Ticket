@@ -95,7 +95,7 @@ function deleteMany(arr) {
   }
 }
 
-// delte all
+// delete all
 function deleteAll() {
   // ipcRenderer
   //   .invoke('executeQuery', `DROP TABLE tickets`)

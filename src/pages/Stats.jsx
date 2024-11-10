@@ -9,7 +9,7 @@ import { Container, Columns/*, Box, Heading as Typography*/ } from 'react-bulma-
 import Ticket from "../scripts/Ticket";
 import List from "../scripts/List";
 
-import { fetchTickets, getTickets } from "../reduxStore";
+import { fetchTickets, getTickets } from "../stores/store";
 
 // ChartJS.register(LineController, LineElement, PointElement, LinearScale, CategoryScale, PieController, BarController, BarElement, Title, ArcElement, Tooltip, Legend);
 

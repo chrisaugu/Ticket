@@ -16,7 +16,7 @@ import './App.scss';
 // import Ticket from "./scripts/Ticket";
 // import List from "./scripts/List";
 
-// import { fetchTickets, getTickets, getLoadableStatus, setLoadableStatus } from "./reduxStore";
+// import { fetchTickets, getTickets, getLoadableStatus, setLoadableStatus } from "./stores/store";
 
 function App() {
   // const [tickets, setTickets] = useState([]);

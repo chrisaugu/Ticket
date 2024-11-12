@@ -24,9 +24,6 @@ if (process.platform === 'win32') {
   app.commandLine.appendSwitch('force-device-scale-factor', '1')
 }
 
-const MAIN_WINDOWS_WIDTH = 800;
-const MAIN_WINDOWS_HEIGHT = 650;
-
 function createWindow() {
   const splash = new BrowserWindow({
     width: 600, 
@@ -39,8 +36,8 @@ function createWindow() {
   splash.center();
 
   let mainWindow = new BrowserWindow({
-    width: MAIN_WINDOWS_WIDTH,
-    height: MAIN_WINDOWS_HEIGHT,
+    width: 800,
+    height: 650,
     // backgroundColor: 'lightgray',
     // title: config.productName,
     show: false,

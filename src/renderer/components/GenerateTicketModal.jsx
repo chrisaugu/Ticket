@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Ticket from "../scripts/Ticket";
+import Ticket from "../libs/Ticket";
 import Icon from "./Icon";
 
 class Modal extends React.Component {

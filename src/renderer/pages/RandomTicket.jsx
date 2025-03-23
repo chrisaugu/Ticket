@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Helmet } from 'react-helmet';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { Button } from 'react-bulma-components';
@@ -60,10 +59,6 @@ const Dashboard = (/*{ data }*/) => {
   
   return (
     <>
-      <Helmet>
-        <title>Random Ticket</title>
-      </Helmet>
-
       <div className="container">
         <div className="columns">
 

@@ -3,7 +3,6 @@ import thunkMiddleware from 'redux-thunk';
 import logger from 'redux-logger';
 // import { configureStore } from "@reduxjs/toolkit";
 
-
 /**
  * Reducers
  */

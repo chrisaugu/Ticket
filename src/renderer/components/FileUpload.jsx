@@ -3,7 +3,7 @@ import React from 'react';
 import { parse_csv_to_json } from "../scripts/utils";
 
 import Icon from "./Icon";
-import Ticket from "../scripts/Ticket";
+import Ticket from "../libs/Ticket";
 
 class FileUpload extends React.Component {
   constructor(props) {
@@ -13,12 +13,6 @@ class FileUpload extends React.Component {
     }
 
     this.handleChange = this.handleChange.bind(this);
-  }
-
-  componentDidMount() {
-  }
-  
-  componentDidUpdate(prevProps) {
   }
 
   handleChange = (e) => {

@@ -1,5 +1,4 @@
 import React from "react";
-// import React, { useState, useEffect, useReducer } from "react";
 
 import { Routes, Route, NavLink, Navigate } from "react-router-dom";
 
@@ -13,8 +12,8 @@ import Icon from "./components/Icon";
 
 import './App.scss';
 
-// import Ticket from "./scripts/Ticket";
-// import List from "./scripts/List";
+// import Ticket from "./libs/Ticket";
+// import List from "./libs/List";
 
 // import { fetchTickets, getTickets, getLoadableStatus, setLoadableStatus } from "./stores/store";
 
@@ -42,7 +41,7 @@ function App() {
 
   let systemRef = React.createRef();
   let darkLightRef = React.createRef();
-  
+
   const toggleDarkMode = async () => {
     let isDarkMode = await window.ticket.toggle();
     darkLightRef.current.innerText = isDarkMode ? 'Light' : 'Dark';
@@ -60,7 +59,7 @@ function App() {
   //     console.log('State after dispatch: ', store.getState())
   // );
   // unsubscribe();
-  
+
   // dispatch(setLoadableStatus('hasValue'));
 
   // const loadable = useSelector(getLoadableStatus);
@@ -89,32 +88,32 @@ function App() {
             </p>
           </div>*/}
 
-          <hr/>
+          <hr />
 
           <div className="menu">
             <p className="menu-label">Menu</p>
             <ul className="menu-list">
               <li>
                 <NavLink to="/" className={isActive => "is-active" + (!isActive ? " unselected" : "")}>
-                  <Icon className="has-fill-red" icon="home"/>
+                  <Icon className="has-fill-red" icon="home" />
                   Home
                 </NavLink>
               </li>
               <li>
                 <NavLink to="dashboard" className={isActive => "is-active" + (!isActive ? " unselected" : "")}>
-                  <Icon className="has-fill-red" icon="list"/>
+                  <Icon className="has-fill-red" icon="list" />
                   Dashboard
                 </NavLink>
               </li>
               <li>
                 <NavLink to="random" className={isActive => "is-active" + (!isActive ? " unselected" : "")}>
-                  <Icon className="has-fill-red" icon="list"/>
+                  <Icon className="has-fill-red" icon="list" />
                   Random Ticket
                 </NavLink>
               </li>
               <li>
                 <NavLink to="stats" className={isActive => "is-active" + (!isActive ? " unselected" : "")}>
-                  <Icon className="has-fill-red" icon="segment"/>
+                  <Icon className="has-fill-red" icon="segment" />
                   Stats
                 </NavLink>
               </li>
@@ -122,21 +121,21 @@ function App() {
           </div>
         </div>
 
-          <div className="mt-5 m-2">
-            <small>Made with ❤ in Beautiful Madang.</small>
-          </div>
+        <div className="mt-5 m-2">
+          <small>Made with ❤ in Beautiful Madang.</small>
+        </div>
 
       </aside>
 
       <main className="page">
-        
+
         <Routes>
-          <Route exact index path="/" element={<Home/>} />
-          <Route exact path="/dashboard" element={<Dashboard/>} />
-          <Route exact path="/random" element={<RandomTicket/>} />
-          <Route exact path="/stats" element={<Stats/>} />
+          <Route exact index path="/" element={<Home />} />
+          <Route exact path="/dashboard" element={<Dashboard />} />
+          <Route exact path="/random" element={<RandomTicket />} />
+          <Route exact path="/stats" element={<Stats />} />
           <Route exact path="/main_window" element={<Navigate to="/" replace={true} />} />
-          <Route exact path="*" element={<NoMatch/>} />
+          <Route exact path="*" element={<NoMatch />} />
         </Routes>
 
       </main>

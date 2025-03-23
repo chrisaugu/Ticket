@@ -1,13 +1,15 @@
-import React, { /*useRef, useState,*/ useEffect } from "react";
-import { Helmet } from 'react-helmet';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 // import { Chart } from "react-chartjs-2";
 // import { Chart as ChartJS, LineController, LineElement, PointElement, LinearScale, CategoryScale, PieController, BarController, BarElement, Title, ArcElement, Tooltip, Legend } from "chart.js";
 
-import { Container, Columns/*, Box, Heading as Typography*/ } from 'react-bulma-components';
+import {
+  Container,
+  Columns /*, Box, Heading as Typography*/,
+} from "react-bulma-components";
 
-import Ticket from "../scripts/Ticket";
-import List from "../scripts/List";
+import Ticket from "../libs/Ticket";
+import List from "../libs/List";
 
 import { fetchTickets, getTickets } from "../stores/store";
 
@@ -48,32 +50,34 @@ import { fetchTickets, getTickets } from "../stores/store";
 
 const Stats = (/*{ data }*/) => {
   const dispatch = useDispatch();
-  const tickets = useSelector(getTickets);
+  const tickets = useSelector(getTickets) ?? [];
 
   useEffect(() => {
-    window.ticket.getAll()
+    window.ticket
+      .getAll()
       .then((results) => {
         // setTickets(results);
         dispatch(fetchTickets(results));
       })
-      .catch(error => {
-          // setIsError(true);
-          console.error(error);
+      .catch((error) => {
+        // setIsError(true);
+        console.error(error);
       });
 
     // setIsLoading(false);
-
   }, []);
 
-  let ticket_price = tickets[0].ticket_price;
-  let total_tickets = tickets.length;
-
+  let total_tickets = tickets?.length;
+  let ticket_price = total_tickets > 0 && tickets[0]?.ticket_price;
+  
   let ticketsList = new List();
   // for (let i = 0; i < total_tickets; i++) {
   //   ticketsList.append(tickets[i]);
   // }
   for (var ticket of tickets) {
-    ticketsList.append(new Ticket(ticket.ticket_id, ticket.ticket_no, ticket.ticket_status));
+    ticketsList.append(
+      new Ticket(ticket.ticket_id, ticket.ticket_no, ticket.ticket_status)
+    );
   }
 
   // for (ticketsList.end(); ticketsList.currPos() > 0; ticketsList.prev()) {
@@ -99,10 +103,18 @@ const Stats = (/*{ data }*/) => {
   //     }
   //   }
   // }
-  
+
   let tickets_profit = tickets_sold * ticket_price;
 
-  const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+  const labels = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+  ];
 
   // const [chartData, setChartData] = useState({
   //   labels: [],
@@ -219,9 +231,9 @@ const Stats = (/*{ data }*/) => {
   //     {
   //       label: "# of Votes",
   //       data: [
-  //         tickets_sold, 
-  //         tickets_checkedin, 
-  //         tickets_checkedout, 
+  //         tickets_sold,
+  //         tickets_checkedin,
+  //         tickets_checkedout,
   //         tickets_profit
   //       ],
   //       backgroundColor: ["#F2CC59", "#BA68C8", "#407BFF", "#E6E5E6"],
@@ -260,18 +272,18 @@ const Stats = (/*{ data }*/) => {
 
   return (
     <>
-      <Helmet>
-        <title>Stats</title>
-      </Helmet>
       {/*<h6 className="is-uppercase is-dimmed has-text-weight-medium is-size-6 is-size-7-mobile">Page</h6>*/}
       {/*<h1 className="title is-family-secondary is-size-2-mobile">Stats</h1>*/}
       <Container>
-
         <Columns breakpoint="tablet">
           <div className="column is-4">
             <div className="box is-raised">
-              <h1 className="title is-1 is-family-primary">{total_tickets} total</h1>
-              <div className="subtitle">ticket{`${total_tickets > 0 ? 's' : ''}`}</div>
+              <h1 className="title is-1 is-family-primary">
+                {total_tickets} total
+              </h1>
+              <div className="subtitle">
+                ticket{`${total_tickets > 0 ? "s" : ""}`}
+              </div>
             </div>
           </div>
           <div className="column is-4">
@@ -282,23 +294,29 @@ const Stats = (/*{ data }*/) => {
           </div>
           <div className="column is-4">
             <div className="box is-raised">
-              <h1 className="title is-1 is-family-primary">{tickets_sold} tickets</h1>
+              <h1 className="title is-1 is-family-primary">
+                {tickets_sold} tickets
+              </h1>
               <div className="subtitle">sold</div>
             </div>
           </div>
           <div className="column is-4">
             <div className="box is-raised">
-              <h1 className="title is-1 is-family-primary">K{tickets_profit}</h1>
+              <h1 className="title is-1 is-family-primary">
+                K{tickets_profit}
+              </h1>
               <div className="subtitle">made</div>
             </div>
           </div>
           <div className="column is-4">
             <div className="box is-raised">
-              <h1 className="title is-1 is-family-primary">{tickets_checkedin} tickets</h1>
+              <h1 className="title is-1 is-family-primary">
+                {tickets_checkedin} tickets
+              </h1>
               <div className="subtitle">checked in</div>
             </div>
           </div>
-              
+
           {/*<Columns.Column size="4">
             <Box className="is-raised">
               <Chart type='pie' data={pieData} options={pieOptions} ref={summaryRef} />    
@@ -326,13 +344,10 @@ const Stats = (/*{ data }*/) => {
               <Chart ref={chartRef} type='line' options={options} data={chartData} />
             </Box>
           </Columns.Column>*/}
-          
         </Columns>
-
       </Container>
     </>
   );
-}
-
+};
 
 export default Stats;

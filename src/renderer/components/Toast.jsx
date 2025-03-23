@@ -1,4 +1,4 @@
-import { Component, Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom/client';
 
 const Toast = ({ text, variant, isShowing, hide }) => isShowing ? ReactDOM.createPortal(
@@ -8,7 +8,8 @@ const Toast = ({ text, variant, isShowing, hide }) => isShowing ? ReactDOM.creat
         {text}
       </div>  
     </div>
-  </Fragment>, document.body
+  </Fragment>, 
+  document.body
 ) : null;
 
 export default Toast;

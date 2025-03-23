@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Helmet } from 'react-helmet';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { Button, Heading } from 'react-bulma-components';
@@ -74,11 +73,7 @@ const Dashboard = (/*{ data }*/) => {
   }
   
   return (
-    <>
-      <Helmet>
-        <title>Home</title>
-      </Helmet>
-      
+    <>      
       {/*<h6 className="is-uppercase is-dimmed has-text-weight-medium is-size-6 is-size-7-mobile">Page</h6>*/}
       {/*<h1 className="title is-family-secondary is-size-2-mobile">Home</h1>*/}
       

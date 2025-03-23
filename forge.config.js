@@ -1,5 +1,5 @@
-const { FusesPlugin } = require('@electron-forge/plugin-fuses');
-const { FuseV1Options, FuseVersion } = require('@electron/fuses');
+const { FusesPlugin } = require("@electron-forge/plugin-fuses");
+const { FuseV1Options, FuseVersion } = require("@electron/fuses");
 
 module.exports = {
   packagerConfig: {
@@ -8,39 +8,43 @@ module.exports = {
   rebuildConfig: {},
   makers: [
     {
-      name: '@electron-forge/maker-squirrel',
+      name: "@electron-forge/maker-squirrel",
       config: {
-        name: "kasap"
+        name: "kasap",
       },
     },
     {
-      name: '@electron-forge/maker-zip',
-      platforms: ['darwin'],
+      name: "@electron-forge/maker-zip",
+      platforms: ["darwin"],
     },
+    // {
+    //   name: '@electron-forge/maker-deb',
+    //   config: {
+    //     options: {
+    //       maintainer: 'Christian Augustyn',
+    //       homepage: 'https://www.christianaugustyn.me'
+    //     }
+    //   },
+    // },
+    // {
+    //   name: '@electron-forge/maker-snap',
+    //   config: {
+    //     features: {
+    //       audio: true,
+    //       mpris: 'com.example.mpris',
+    //       webgl: true
+    //     },
+    //     summary: 'Pretty Awesome'
+    //   }
+    // }
     {
-      name: '@electron-forge/maker-deb',
-      config: {
-        options: {
-          maintainer: 'Christian Augustyn',
-          homepage: 'https://www.christianaugustyn.me'
-        }
-      },
+      name: "@electron-forge/maker-rpm",
+      config: {},
     },
-    {
-      name: '@electron-forge/maker-snap',
-      config: {
-        features: {
-          audio: true,
-          mpris: 'com.example.mpris',
-          webgl: true
-        },
-        summary: 'Pretty Awesome'
-      }
-    }
   ],
   plugins: [
     {
-      name: '@electron-forge/plugin-auto-unpack-natives',
+      name: "@electron-forge/plugin-auto-unpack-natives",
       config: {},
     },
     {
@@ -53,16 +57,16 @@ module.exports = {
           entryPoints: [
             {
               name: "main_window",
-              html: "./src/index.html",
-              js: "./src/renderer.js",
+              html: "./src/renderer/index.html",
+              js: "./src/renderer/renderer.js",
               preload: {
-                js: "./src/preload.js"
-              }
+                js: "./src/main/preload.js",
+              },
             },
             {
-              html: './src/splash.html',
-              name: 'splash_window',
-              js: "./src/renderer.js",
+              html: "./src/renderer/splash.html",
+              name: "splash_window",
+              js: "./src/renderer/renderer.js",
             },
           ],
         },

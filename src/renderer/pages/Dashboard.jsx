@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Helmet } from 'react-helmet';
 import _ from 'underscore';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Progress, Loader } from 'react-bulma-components';
@@ -11,13 +10,13 @@ import Modal from "../components/Modal";
 import useModal from '../hooks/useModal';
 import Icon from "../components/Icon";
 import TicketList from "../components/TicketList";
-import Ticket from "../scripts/Ticket";
-import List from "../scripts/List";
+import Ticket from "../libs/Ticket";
+import List from "../libs/List";
 import Toast from "../components/Toast";
 
 import { fetchTickets, getTickets } from "../stores/store";
 
-const Dashboard = (/*{ data }*/) => {
+const Dashboard = () => {
   // const [ tickets, setTickets ] = useState(data);
   const dispatch = useDispatch();
 
@@ -207,9 +206,6 @@ const Dashboard = (/*{ data }*/) => {
   
   return (
     <>
-      <Helmet>
-        <title>Dashboard</title>
-      </Helmet>
       {/*<h6 className="is-uppercase is-dimmed has-text-weight-medium is-size-6 is-size-7-mobile">Page</h6>*/}
       {/*<h1 className="title is-family-secondary is-size-2-mobile">Dashboard</h1>*/}
       <div className="container is-fullhd">

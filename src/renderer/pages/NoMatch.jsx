@@ -1,13 +1,9 @@
 import React from "react";
-import { Helmet } from 'react-helmet';
 
 const Tickets = () => {
   
   return (
     <>
-      <Helmet>
-        <title>Page Not Found</title>
-      </Helmet>
       <div className="container">
 
         <div className="columns">
